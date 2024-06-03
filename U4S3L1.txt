@@ -1,0 +1,40 @@
+1) SELECT * FROM public."Clienti"
+where "Name" = 'Mario'
+
+2)
+select "Nome", "Cognome" from public."Clienti"
+where "Anno di Nascita" = 1982
+
+3)
+select "NumeroFattura" from public."Fatture" 
+where "Iva" = 20
+
+4)
+SELECT * 
+FROM public."Prodotti" 
+WHERE EXTRACT(YEAR FROM DataArrivo) = 2017 
+  AND (Stato = 'InProduzione' OR Stato = 'InCommercio');
+
+5)
+select * 
+from public."Fatture"
+join public."Clienti" on public."Fatture"."IdCliente" = public."Clienti"."NumeroCliente"
+where public."Fatture".Importo" < 1000
+
+6) SELECT Fatture.NumeroFattura, Fatture.Importo, Fatture.IVA, Fatture.DataFattura, Fornitori.Nome AS NomeFornitore
+FROM Fatture
+JOIN Fornitori ON Fatture.NumeroFornitore = Fornitori.NumeroFornitore
+
+7)
+SELECT EXTRACT(YEAR FROM DataFattura) AS Anno, COUNT(*) AS NumeroFatture
+FROM Fatture
+WHERE IVA = 20
+GROUP BY EXTRACT(YEAR FROM DataFattura)
+ORDER BY Anno;
+
+8) SELECT EXTRACT(YEAR FROM DataFattura) AS Anno, 
+       COUNT(*) AS NumeroFatture, 
+       SUM(Importo) AS SommaImporti
+FROM Fatture
+GROUP BY EXTRACT(YEAR FROM DataFattura)
+ORDER BY Anno;
